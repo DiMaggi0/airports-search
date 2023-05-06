@@ -26,6 +26,7 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException, ScriptException, IllegalArgumentException{
+
         java.util.Scanner userInput = new Scanner(System.in);
 
         while(true) {
@@ -46,15 +47,15 @@ public class App {
                 System.exit(0);
             }
             Instant start = Instant.now();
-            ArrayList<String[]> printAnswer = request.workWithUserRequest(userRequest, searchMap);
+            ArrayList<String[]> finalResponse = request.processRequest(userRequest, searchMap);
 
-            printAnswer.forEach(str -> System.out.println(str[1] + Arrays.toString(str)));
+            finalResponse.forEach(str -> System.out.println(str[1] + Arrays.toString(str)));
             Instant finish = Instant.now();
             long d = Duration.between(start, finish).toMillis();
 
-            System.out.println("Количество найденных строк: " + printAnswer.size());
+            System.out.println("Количество найденных строк: " + finalResponse.size());
             System.out.println("Время, затраченное на поиск: " + d + " ms");
-            searchMap.clear();
+
         }
 
 

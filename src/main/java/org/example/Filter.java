@@ -25,33 +25,31 @@ public class Filter {
                     if (fileString[i].contains("\"") || fileString[i].contains("'")) {
                         fileString[i] = fileString[i].substring(1, fileString[i].length() - 1);
                     }
-                    if(fileString[i].equals("\\N")){
+                    if (fileString[i].equals("\\N")) {
                         fileString[i] = "";
                     }
                 }
 
-                ArrayList<String[]> al;
-                ScriptEngine engine = new ScriptEngineManager().getEngineByName("js");
+                ArrayList<String[]> value;
+                System.setProperty("nashorn.args","--no-deprecation-warning");
+                ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 
                 engine.put("Column", fileString);
-
-
-
 
 
                 if ((boolean) engine.eval(editFilterString(filter))) { // здесь вызывается функция, отвечающая за фильтр, вводимый пользователем
 
                     // здесь создаем hashmap, которая будет хранить нужные нам строки
                     if (searchMap.containsKey(fileString[1].charAt(0))) {
-                        al = searchMap.get(fileString[1].charAt(0));
-                        al.add(fileString);
+                        value = searchMap.get(fileString[1].charAt(0));
+                        value.add(fileString);
                         searchMap.remove(fileString[1].charAt(0));
 
                     } else {
-                        al = new ArrayList<>();
-                        al.add(fileString);
+                        value = new ArrayList<>();
+                        value.add(fileString);
                     }
-                    searchMap.put(fileString[1].charAt(0), al);
+                    searchMap.put(fileString[1].charAt(0), value);
                 }
                 line = br.readLine();
             }
